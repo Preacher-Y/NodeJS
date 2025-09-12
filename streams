@@ -1,0 +1,40 @@
+
+const fs = require('fs')
+
+// +------------------------------------------------------------------------+
+// |                             STREAMS                                    |
+// +------------------------------------------------------------------------+
+
+/*
+    What are STREAMS: streams are more like pipe line that will be loading or passing a small chunk/ small
+    portion for a large file to send them in small portion. i.e.: when streaming online a movie this will
+    minimize the usage for the memory
+
+*/
+
+// ++++++++++++ TYPES FOR STREAMS ++++++++++++++++++
+
+// 1. *Readable Streams*: this you can be able to read data from them.
+const readableStreams = fs.createReadStream('./doc/stream.txt',{encoding:'utf8'})
+
+// 2. *Writeable Streams*: this you can be able to write data to them.
+const writeableStreams = fs.createWriteStream('./doc/streamWrite.txt')
+
+readableStreams.on('data',(chunk)=>{
+    console.log(`\n------------- New Chunk --------------\n`)
+    console.log(chunk)
+    
+    writeableStreams.write('\n\n---------New Chunk--------\n\n')
+    writeableStreams.write(chunk)
+})
+// first 'data' is an event for listening to data-chunk (small portion) retrieval then
+// the callback funtion will run
+
+
+// +------------------------------------------------------------------------+
+// |                              piping                                    |
+// +------------------------------------------------------------------------+
+
+// This is a simple way for reading and writing 
+
+readableStreams.pipe(writeableStreams)
