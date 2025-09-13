@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Projects – Jane Developer</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* Reuse portfolio theme variables */
+      :root {
+        --bg: #ffffff;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --card: #f8fafc;
+        --border: #e5e7eb;
+        --accent: #2563eb;
+        --accent-contrast: #ffffff;
+        --shadow: 0 10px 20px rgba(0,0,0,0.06), 0 6px 6px rgba(0,0,0,0.08);
+      }
+      [data-theme="dark"] {
+        --bg: #0b1220;
+        --text: #e5e7eb;
+        --muted: #94a3b8;
+        --card: #0f172a;
+        --border: #1f2937;
+        --accent: #60a5fa;
+        --accent-contrast: #0b1220;
+        --shadow: 0 10px 20px rgba(0,0,0,0.35), 0 6px 6px rgba(0,0,0,0.25);
+      }
+
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+      header, footer {
+        border-bottom: 1px solid var(--border);
+        border-top: 1px solid var(--border);
+        padding: 1rem;
+        text-align: center;
+      }
+      .container {
+        width: min(1100px, 92%);
+        margin: 2rem auto;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1rem;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        padding: 1rem;
+        box-shadow: var(--shadow);
+      }
+      .card h2 {
+        margin-top: 0;
+      }
+      .pill {
+        display: inline-block;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 0.2rem 0.6rem;
+        font-size: 0.8rem;
+        margin-right: 0.4rem;
+        color: var(--muted);
+      }
+      .back-link {
+        display: inline-block;
+        margin-top: 1.5rem;
+        text-decoration: none;
+        color: var(--accent);
+        font-weight: bold;
+      }
+      .back-link:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="/" class="back-link">← Back to Home</a>
+    </header>
+
+    <main class="container">
+      <h1>My Projects</h1>
+      <div class="card-grid">
+        <div class="card">
+          <h2>Analytics Dashboard</h2>
+          <p>A role-based dashboard with charts, filters, and export options for decision-making.</p>
+          <div>
+            <span class="pill">React</span>
+            <span class="pill">Node</span>
+            <span class="pill">PostgreSQL</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Realtime Chat</h2>
+          <p>Built with WebSockets for instant messaging, typing indicators, and live presence.</p>
+          <div>
+            <span class="pill">TypeScript</span>
+            <span class="pill">WebSocket</span>
+            <span class="pill">Redis</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>E-Commerce API</h2>
+          <p>A robust API with authentication, payments, and inventory management.</p>
+          <div>
+            <span class="pill">Node</span>
+            <span class="pill">Express</span>
+            <span class="pill">Stripe</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Portfolio Website</h2>
+          <p>The website you are viewing right now – clean design with theme toggle and responsive layout.</p>
+          <div>
+            <span class="pill">HTML</span>
+            <span class="pill">CSS</span>
+            <span class="pill">JavaScript</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>© <span id="year"></span> Jane Developer</p>
+    </footer>
+
+    <script>
+      // Theme persistence (same logic as index.html)
+      (function initTheme() {
+        const saved = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const initial = saved || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', initial);
+      })();
+
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>

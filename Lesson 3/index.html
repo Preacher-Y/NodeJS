@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My Portfolio</title>
+    <style>
+      /* ===== CSS Variables (Theming) ===== */
+      :root {
+        --bg: #ffffff;
+        --text: #1f2937; /* gray-800 */
+        --muted: #6b7280; /* gray-500 */
+        --card: #f8fafc; /* slate-50 */
+        --border: #e5e7eb; /* gray-200 */
+        --accent: #2563eb; /* blue-600 */
+        --accent-contrast: #ffffff;
+        --shadow: 0 10px 20px rgba(0,0,0,0.06), 0 6px 6px rgba(0,0,0,0.08);
+      }
+      [data-theme="dark"] {
+        --bg: #0b1220;
+        --text: #e5e7eb; /* gray-200 */
+        --muted: #94a3b8; /* slate-400 */
+        --card: #0f172a; /* slate-900 */
+        --border: #1f2937; /* gray-800 */
+        --accent: #60a5fa; /* blue-300 */
+        --accent-contrast: #0b1220;
+        --shadow: 0 10px 20px rgba(0,0,0,0.35), 0 6px 6px rgba(0,0,0,0.25);
+      }
+
+      /* ===== Global Resets ===== */
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+      }
+      img { max-width: 100%; display: block; }
+      a { color: var(--accent); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+
+      /* ===== Layout ===== */
+      .container { width: min(1100px, 92%); margin: 0 auto; }
+      header {
+        position: sticky; top: 0; z-index: 10;
+        backdrop-filter: saturate(180%) blur(8px);
+        background: color-mix(in srgb, var(--bg) 80%, transparent);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav { display: flex; align-items: center; justify-content: space-between; padding: 0.9rem 0; }
+      .brand { display: flex; align-items: center; gap: 0.75rem; }
+      .avatar {
+        width: 40px; height: 40px; border-radius: 50%;
+        background: radial-gradient( 120px 120px at 30% 30%, var(--accent) 0, color-mix(in srgb, var(--accent) 50%, var(--accent-contrast)) 35%, transparent 36%),
+                    linear-gradient(135deg, color-mix(in srgb, var(--accent) 30%, var(--bg)), var(--card));
+        box-shadow: var(--shadow);
+      }
+      .brand h1 { font-size: 1.05rem; margin: 0; }
+
+      .theme-toggle {
+        border: 1px solid var(--border);
+        background: var(--card);
+        color: var(--text);
+        border-radius: 999px;
+        padding: 0.4rem 0.8rem;
+        display: inline-flex; align-items: center; gap: 0.5rem;
+        cursor: pointer;
+        box-shadow: var(--shadow);
+      }
+      .theme-toggle:hover { filter: brightness(1.02); }
+
+      main { padding: 2rem 0 4rem; }
+      section { padding: 3rem 0; }
+
+      .hero { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; align-items: center; }
+      .hero h2 { font-size: clamp(1.8rem, 3.8vw, 3rem); line-height: 1.15; margin: 0 0 0.75rem; }
+      .hero p { color: var(--muted); margin: 0 0 1rem; }
+
+      .pill {
+        display: inline-block; padding: 0.35rem 0.7rem; border-radius: 999px; font-size: 0.85rem;
+        border: 1px solid var(--border); background: var(--card); color: var(--muted);
+      }
+
+      .card-grid { display: grid; grid-template-columns: repeat( auto-fit, minmax(260px, 1fr) ); gap: 1rem; }
+      .card {
+        border: 1px solid var(--border); background: var(--card); border-radius: 1rem; padding: 1rem; box-shadow: var(--shadow);
+      }
+      .card h3 { margin: 0 0 0.25rem; font-size: 1.05rem; }
+      .card p { margin: 0.25rem 0 0.75rem; color: var(--muted); }
+      .tag-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+      .cta {
+        display: inline-flex; align-items: center; gap: 0.6rem;
+        border: 1px solid transparent; background: var(--accent); color: var(--accent-contrast);
+        padding: 0.6rem 0.9rem; border-radius: 0.7rem; text-decoration: none; box-shadow: var(--shadow);
+      }
+      .cta:hover { filter: brightness(1.05); text-decoration: none; }
+
+      footer { border-top: 1px solid var(--border); padding: 2rem 0; color: var(--muted); text-align: center; }
+
+      /* Responsive */
+      @media (max-width: 860px) {
+        .hero { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container nav">
+        <div class="brand">
+          <div class="avatar" aria-hidden="true"></div>
+          <h1>Yves Developer</h1>
+        </div>
+        <button id="themeButton" class="theme-toggle" aria-pressed="false" aria-label="Toggle theme">
+          <span id="themeIcon" aria-hidden="true">🌞</span>
+          <span id="themeLabel">Light</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- Hero -->
+      <section class="hero">
+        <div>
+          <span class="pill">Full‑Stack Engineer • React • Node</span>
+          <h2>Hello, I’m Yves. I build reliable, human‑centered web apps.</h2>
+          <p>
+            I focus on clean UX, scalable architecture, and a pragmatic approach to shipping features.
+            Below are a few sample projects and ways to reach me.
+          </p>
+          <div style="display:flex; gap:0.6rem; flex-wrap:wrap; margin-top: 1rem;">
+            <a class="cta" href="/project">View Projects →</a>
+            <a class="cta" style="background:transparent; color:var(--accent); border-color:var(--border);" href="#contact">Contact</a>
+          </div>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:0;">Quick Highlights</h3>
+          <ul style="margin:0.5rem 0 0.2rem 1.1rem; padding:0;">
+            <li>5+ years building B2B dashboards</li>
+            <li>Strong in TypeScript, React, Node, SQL</li>
+            <li>Cloud: AWS & Azure fundamentals</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Projects -->
+      <section id="projects">
+        <h2 style="margin-top:0; font-size:1.6rem;">Featured Projects</h2>
+        <div class="card-grid">
+          <article class="card">
+            <h3>Analytics Dashboard</h3>
+            <p>Role‑based insights with charts, filters, and exports.</p>
+            <div class="tag-row">
+              <span class="pill">React</span>
+              <span class="pill">Node</span>
+              <span class="pill">PostgreSQL</span>
+            </div>
+          </article>
+          <article class="card">
+            <h3>Realtime Chat</h3>
+            <p>WebSocket-based messaging with typing indicators.</p>
+            <div class="tag-row">
+              <span class="pill">TypeScript</span>
+              <span class="pill">WebSocket</span>
+              <span class="pill">Redis</span>
+            </div>
+          </article>
+          <article class="card">
+            <h3>E‑Commerce API</h3>
+            <p>Orders, payments, and inventory with clean docs.</p>
+            <div class="tag-row">
+              <span class="pill">Node</span>
+              <span class="pill">Express</span>
+              <span class="pill">Stripe</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact">
+        <h2 style="margin-top:0; font-size:1.6rem;">Get in touch</h2>
+        <div class="card">
+          <p style="margin:0 0 0.8rem;">Open to roles, freelance, and collaborations.</p>
+          <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+            <a class="cta" href="mailto:jane@example.com">Email</a>
+            <a class="cta" href="#">LinkedIn</a>
+            <a class="cta" href="#">GitHub</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">© <span id="year"></span> Jane Developer. All rights reserved.</div>
+    </footer>
+
+    <script>
+      // ===== Theme Toggle with localStorage persist & prefers-color-scheme fallback =====
+      (function initTheme() {
+        const saved = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const initial = saved || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', initial);
+        updateToggleUI(initial === 'dark');
+      })();
+
+      function updateToggleUI(isDark) {
+        const btn = document.getElementById('themeButton');
+        const icon = document.getElementById('themeIcon');
+        const label = document.getElementById('themeLabel');
+        btn.setAttribute('aria-pressed', String(isDark));
+        icon.textContent = isDark ? '🌙' : '🌞';
+        label.textContent = isDark ? 'Dark' : 'Light';
+      }
+
+      document.getElementById('themeButton').addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        updateToggleUI(next === 'dark');
+      });
+
+      // Footer year
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
