@@ -37,3 +37,5 @@ app.get('/about',(req,res)=>{
 app.use((req,res)=>{
     res.status(404).sendFile('./404.html',{root: __dirname})
 })
+
+// Any function that runs between the 
