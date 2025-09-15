@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>My Portfolio</title>
+    <title><%= name %>'s Portfolios  </title>
     <style>
       /* ===== CSS Variables (Theming) ===== */
       :root {
@@ -83,9 +83,15 @@
         border: 1px solid var(--border); background: var(--card); color: var(--muted);
       }
 
-      .card-grid { display: grid; grid-template-columns: repeat( auto-fit, minmax(260px, 1fr) ); gap: 1rem; }
+      .card-grid { display: grid; padding: 10px;grid-template-columns: repeat( auto-fit, minmax(350px, 1fr) ); gap: 1rem; }
       .card {
         border: 1px solid var(--border); background: var(--card); border-radius: 1rem; padding: 1rem; box-shadow: var(--shadow);
+      }
+      #proj>.card:hover{
+        scale: 102.5%;
+        transition: all;
+        transition-duration: 300ms;
+        transition-timing-function: ease-in-out;
       }
       .card h3 { margin: 0 0 0.25rem; font-size: 1.05rem; }
       .card p { margin: 0.25rem 0 0.75rem; color: var(--muted); }
@@ -111,7 +117,7 @@
       <div class="container nav">
         <div class="brand">
           <div class="avatar" aria-hidden="true"></div>
-          <h1>Yves Developer</h1>
+          <h1><%= name %> Developer</h1>
         </div>
         <button id="themeButton" class="theme-toggle" aria-pressed="false" aria-label="Toggle theme">
           <span id="themeIcon" aria-hidden="true">🌞</span>
@@ -125,7 +131,8 @@
       <section class="hero">
         <div>
           <span class="pill">Full‑Stack Engineer • React • Node</span>
-          <h2>Hello, I’m Yves. I build reliable, human‑centered web apps.</h2>
+          <h2>Hello, I’m <strong style="font-size: larger; color: #457ece; text-wrap: nowrap;"><%=fullName%></strong> 
+          <br/> I build reliable, human centered web apps.</h2>
           <p>
             I focus on clean UX, scalable architecture, and a pragmatic approach to shipping features.
             Below are a few sample projects and ways to reach me.
@@ -135,9 +142,9 @@
             <a class="cta" style="background:transparent; color:var(--accent); border-color:var(--border);" href="#contact">Contact</a>
           </div>
         </div>
-        <div class="card">
-          <h3 style="margin-top:0;">Quick Highlights</h3>
-          <ul style="margin:0.5rem 0 0.2rem 1.1rem; padding:0;">
+        <div class="card" style="width: 500px; height: 300px; align-content: center;">
+          <h3 style="margin-top:0; margin-left: 20px;  font-size:xx-large;">Quick Highlights</h3>
+          <ul style="margin:0.5rem 0 0.2rem 1.1rem; margin-left: 50px; padding:0; font-size: larger;">
             <li>5+ years building B2B dashboards</li>
             <li>Strong in TypeScript, React, Node, SQL</li>
             <li>Cloud: AWS & Azure fundamentals</li>
@@ -147,54 +154,46 @@
 
       <!-- Projects -->
       <section id="projects">
-        <h2 style="margin-top:0; font-size:1.6rem;">Featured Projects</h2>
-        <div class="card-grid">
-          <article class="card">
-            <h3>Analytics Dashboard</h3>
-            <p>Role‑based insights with charts, filters, and exports.</p>
-            <div class="tag-row">
-              <span class="pill">React</span>
-              <span class="pill">Node</span>
-              <span class="pill">PostgreSQL</span>
-            </div>
-          </article>
-          <article class="card">
-            <h3>Realtime Chat</h3>
-            <p>WebSocket-based messaging with typing indicators.</p>
-            <div class="tag-row">
-              <span class="pill">TypeScript</span>
-              <span class="pill">WebSocket</span>
-              <span class="pill">Redis</span>
-            </div>
-          </article>
-          <article class="card">
-            <h3>E‑Commerce API</h3>
-            <p>Orders, payments, and inventory with clean docs.</p>
-            <div class="tag-row">
-              <span class="pill">Node</span>
-              <span class="pill">Express</span>
-              <span class="pill">Stripe</span>
-            </div>
-          </article>
+        <h2 style="margin-top:0; text-align: center; font-size:1.6rem;">Featured Projects</h2>
+        <div id="proj" class="card-grid">
+          <% if(projects.length > 0){ %>
+            <% projects.map(el=>{%>
+              <article class="card">
+                <h3><%= el.title %></h3>
+                <p><%= el.description %></p>
+
+                <div class="tag-row">
+
+                  <% el.tools.map(el=>{ %>
+                    <span class="pill"><%= el %></span>
+                  <% }) %>
+
+                </div>
+
+              </article>
+            <%})%>
+          <% }else{ %>
+              <p style="color: #1f2937; text-align: center;">Zero Projects Available</p>
+          <% } %>
         </div>
       </section>
 
       <!-- Contact -->
       <section id="contact">
-        <h2 style="margin-top:0; font-size:1.6rem;">Get in touch</h2>
-        <div class="card">
+        <h2 style="margin-top:0; text-align: center; font-size:1.6rem;">Get in touch</h2>
+        <div class="card" style="justify-items: center ;">
           <p style="margin:0 0 0.8rem;">Open to roles, freelance, and collaborations.</p>
           <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
             <a class="cta" href="mailto:jane@example.com">Email</a>
-            <a class="cta" href="#">LinkedIn</a>
-            <a class="cta" href="#">GitHub</a>
+            <a class="cta" href="https://www.linkedin.com/in/yves-sheja-n-m/">LinkedIn</a>
+            <a class="cta" href="https://www.github.com/Preacher-Y">GitHub</a>
           </div>
         </div>
       </section>
     </main>
 
     <footer>
-      <div class="container">© <span id="year"></span> Jane Developer. All rights reserved.</div>
+      <div class="container">© <span id="year"></span> <%= name %> Developer. All rights reserved.</div>
     </footer>
 
     <script>
