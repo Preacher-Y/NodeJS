@@ -9,6 +9,9 @@ app.set('view engine', "ejs")
 // setting a new root dir for the ejs cause by the default i checks in the views folder
 app.set('views',path.join(__dirname,'./'))
 
+// middleware to parse form data
+app.use(express.urlencoded({ extended: true }))
+
 // we use express cause it makes the life easy
 // we don't need to do the switch 
 // we don't need to explicitly tell return type of the response, it implicitly handles it
@@ -67,6 +70,40 @@ app.get('/project',(req,res)=>{
 
 app.get('/about',(req,res)=>{
     res.redirect('/project')
+})
+
+app.get('/add-project',(req,res)=>{
+    res.render('add-project')
+})
+
+app.post('/add-project', async (req,res)=>{
+    const { title, description, tools } = req.body;
+    
+    try {
+        // Insert project
+        const [result] = await pool.query(
+            'INSERT INTO projects (title, description) VALUES (?, ?)',
+            [title, description]
+        );
+        
+        const projectId = result.insertId;
+        
+        // Insert skills/tools
+        if (tools && tools.trim()) {
+            const toolsArray = tools.split(',').map(tool => tool.trim()).filter(tool => tool);
+            for (const tool of toolsArray) {
+                await pool.query(
+                    'INSERT INTO skills (project_ID, skill) VALUES (?, ?)',
+                    [projectId, tool]
+                );
+            }
+        }
+        
+        res.redirect('/');
+    } catch (err) {
+        console.error('Error adding project:', err);
+        res.status(500).send('Error adding project');
+    }
 })
 
 app.use((req,res)=>{
