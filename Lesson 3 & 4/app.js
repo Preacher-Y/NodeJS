@@ -106,6 +106,17 @@ app.post('/add-project', async (req,res)=>{
     }
 })
 
+app.delete('/:title',async(req,res)=>{
+  const title = req.params.title;
+  try {
+    const [result] = await pool.query('DELETE FROM projects WHERE title = ?',[title]);
+    if(result.affectedRows==0) return res.status(404).json({error:`No Project Found with ${title}`});
+    res.json({message: 'Project Delete'});
+  } catch{
+    res.status(404).json({error: 'Server Error'})
+  }
+})
+
 app.use((req,res)=>{
     res.status(404).sendFile('./404.html',{root: __dirname})
 })
