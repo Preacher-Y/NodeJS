@@ -147,7 +147,7 @@
 
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">Add Project</button>
-                    <a href="/" class="btn btn-secondary">Cancel</a>
+                    <a href="/project" class="btn btn-secondary">Cancel</a>
                 </div>
             </form>
         </div>
@@ -162,7 +162,7 @@
             document.documentElement.setAttribute('data-theme', initial);
         })();
         document.body.addEventListener('click',()=>{
-            window.location.href='/';
+            window.location.href='/project';
         })
         document.getElementById('container').addEventListener('click',(e)=>{
             e.stopPropagation();

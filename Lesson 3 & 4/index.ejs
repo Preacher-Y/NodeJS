@@ -158,7 +158,7 @@
         <div id="proj" class="card-grid">
           <% if(projects.length > 0){ %>
             <% projects.map(el=>{%>
-              <article ondblclick="deleteProject(`<%=el.title%>`)" class="card">
+              <article class="card">
                 <h3><%= el.title %></h3>
                 <p><%= el.description %></p>
 
@@ -176,29 +176,6 @@
               <p style="color: #1f2937; text-align: center;">Zero Projects Available</p>
           <% } %>
         </div>
-        <a href="/add-project" 
-          style="
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-left: 43.5%;
-            margin-top: 30px;
-            text-align: center;
-            background-color:#5282e8;
-            color:#200352;
-            padding:12px 24px;
-            font-size:16px;
-            font-weight:600;
-            border:none;
-            border-radius:12px;
-            cursor:pointer;
-            box-shadow:0 4px 8px rgba(0,0,0,0.1);
-            text-decoration: none;
-          "
-        >
-          <span style="font-size: 18px;">+</span> Add Project
-        </a>
-
       </section>
 
       <!-- Contact -->
@@ -248,12 +225,6 @@
 
       // Footer year
       document.getElementById('year').textContent = new Date().getFullYear();
-
-      async function deleteProject(id, title){
-        const res = await fetch(`/${id}`, {method:'DELETE'});
-        if(res.ok) location.reload();
-        else alert('Failed to delete project');
-      }
     </script>
   </body>
 </html>

@@ -93,50 +93,53 @@
     <main style="height: 80vh;" class="container">
       <h1>My Projects</h1>
       <div class="card-grid">
-        <div class="card">
-          <h2>Analytics Dashboard</h2>
-          <p>A role-based dashboard with charts, filters, and export options for decision-making.</p>
-          <div>
-            <span class="pill">React</span>
-            <span class="pill">Node</span>
-            <span class="pill">PostgreSQL</span>
-          </div>
-        </div>
 
-        <div class="card">
-          <h2>Realtime Chat</h2>
-          <p>Built with WebSockets for instant messaging, typing indicators, and live presence.</p>
-          <div>
-            <span class="pill">TypeScript</span>
-            <span class="pill">WebSocket</span>
-            <span class="pill">Redis</span>
-          </div>
-        </div>
+        <% if(projects.length > 0){ %>
+            <% projects.map(el=>{%>
+              <article ondblclick="deleteProject(`<%=el.title%>`)" onclick="getProject(`<%=el.title%>`)" class="card">
+                <h3><%= el.title %></h3>
+                <p><%= el.description %></p>
 
-        <div class="card">
-          <h2>E-Commerce API</h2>
-          <p>A robust API with authentication, payments, and inventory management.</p>
-          <div>
-            <span class="pill">Node</span>
-            <span class="pill">Express</span>
-            <span class="pill">Stripe</span>
-          </div>
-        </div>
+                <div class="tag-row">
 
-        <div class="card">
-          <h2>Portfolio Website</h2>
-          <p>The website you are viewing right now – clean design with theme toggle and responsive layout.</p>
-          <div>
-            <span class="pill">HTML</span>
-            <span class="pill">CSS</span>
-            <span class="pill">JavaScript</span>
-          </div>
-        </div>
+                  <% el.tools.map(el=>{ %>
+                    <span class="pill"><%= el %></span>
+                  <% }) %>
+
+                </div>
+
+              </article>
+            <%})%>
+          <% }else{ %>
+              <p style="color: #1f2937; text-align: center;">Zero Projects Available</p>
+          <% } %>
       </div>
+      <a href="/add-project" 
+          style="
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-left: 43.5%;
+            margin-top: 30px;
+            text-align: center;
+            background-color:#5282e8;
+            color:#200352;
+            padding:12px 24px;
+            font-size:16px;
+            font-weight:600;
+            border:none;
+            border-radius:12px;
+            cursor:pointer;
+            box-shadow:0 4px 8px rgba(0,0,0,0.1);
+            text-decoration: none;
+          "
+        >
+          <span style="font-size: 18px;">+</span> Add Project
+        </a>
     </main>
 
-    <footer>
-      <p>© <span id="year"></span> Jane Developer</p>
+    <footer style="margin-top: 100px;">
+      <p>© <span id="year"></span> Yves Developer</p>
     </footer>
 
     <script>
@@ -147,6 +150,16 @@
         const initial = saved || (prefersDark ? 'dark' : 'light');
         document.documentElement.setAttribute('data-theme', initial);
       })();
+
+      async function deleteProject(title){
+        const res = await fetch(`/${title}`, {method:'DELETE'});
+        if(res.ok) location.reload();
+        else alert('Failed to delete project');
+      }
+
+      async function getProject(title) {
+        window.location.href = `/project/${title}`;
+      }
 
       document.getElementById('year').textContent = new Date().getFullYear();
     </script>

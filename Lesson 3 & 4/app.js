@@ -64,8 +64,30 @@ app.get('/', async (req, res) => {
   }
 });
 
-app.get('/project',(req,res)=>{
-    res.render('project')
+app.get('/project',async (req,res)=>{
+
+  const [rows] = await pool.query(`
+      SELECT p.id, p.title, p.description, s.skill
+      FROM projects p
+      LEFT JOIN skills s ON s.project_ID = p.id
+      ORDER BY p.id;
+    `);
+    
+    const projectsMap = new Map();
+    rows.forEach(row => {
+      if (!projectsMap.has(row.id)) {
+        projectsMap.set(row.id, {
+          title: row.title,
+          description: row.description,
+          tools: []
+        });
+      }
+      if (row.skill) projectsMap.get(row.id).tools.push(row.skill);
+    });
+
+    const projects = Array.from(projectsMap.values());
+
+    res.render('project',{projects})
 })
 
 app.get('/about',(req,res)=>{
@@ -99,7 +121,7 @@ app.post('/add-project', async (req,res)=>{
             }
         }
         
-        res.redirect('/');
+        res.redirect('/project');
     } catch (err) {
         console.error('Error adding project:', err);
         res.status(500).send('Error adding project');
@@ -115,6 +137,26 @@ app.delete('/:title',async(req,res)=>{
   } catch{
     res.status(404).json({error: 'Server Error'})
   }
+})
+
+app.get('/project/:title',async(req,res)=>{
+  const title = req.params.title;
+
+  try{
+    const [rows] = await pool.query('SELECT p.id, p.title, p.description, s.skill FROM projects p LEFT JOIN skills s ON s.project_ID = p.id WHERE p.title = ?',[title]);
+    const project = {
+      id: rows[0].id,
+      title: rows[0].title,
+      description: rows[0].description,
+      tools: rows.filter(r => r.skill).map(r => r.skill)
+    };
+    if(project.affectedRows == 0) return res.status(404).json({error:`No Project "${title}" Found`});
+    res.status(200).render('oneProject',{project});
+    
+  }catch{
+    res.status(404).json({error:'Server Error'});
+  }
+  
 })
 
 app.use((req,res)=>{
