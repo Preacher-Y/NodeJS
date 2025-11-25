@@ -1,0 +1,16 @@
+{
+  "name": "nodeexercises",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "scripts": {
+    "exer1": "nodemon ./Exercise1/src/server"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.11"
+  }
+}

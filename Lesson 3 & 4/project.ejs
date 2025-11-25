@@ -57,7 +57,8 @@
         background: var(--card);
         border: 1px solid var(--border);
         border-radius: 1rem;
-        padding: 1rem;
+        padding: 20px;
+        color: var(--text);
         box-shadow: var(--shadow);
       }
       .card h2 {
@@ -85,7 +86,7 @@
       }
     </style>
   </head>
-  <body>
+  <body style="position: relative;">
     <header>
       <a href="/" class="back-link">← Back to Home</a>
     </header>
@@ -96,9 +97,9 @@
 
         <% if(projects.length > 0){ %>
             <% projects.map(el=>{%>
-              <article ondblclick="deleteProject(`<%=el.title%>`)" onclick="getProject(`<%=el.title%>`)" class="card">
-                <h3><%= el.title %></h3>
-                <p><%= el.description %></p>
+              <button ondblclick="deleteProject(`<%=el.title%>`)" popovertarget="project" onclick="showProjectModal('<%=el.title%>')" class="card">
+                <h2><%= el.title %></h2>
+                <h4><%= el.description %></h4>
 
                 <div class="tag-row">
 
@@ -108,7 +109,7 @@
 
                 </div>
 
-              </article>
+              </button>
             <%})%>
           <% }else{ %>
               <p style="color: #1f2937; text-align: center;">Zero Projects Available</p>
@@ -137,6 +138,15 @@
           <span style="font-size: 18px;">+</span> Add Project
         </a>
     </main>
+    <div id="project" popover style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-color: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 1000;">
+      <div class="card" style="max-width: 500px; width: 90%; position: relative;">
+        <button popovertarget="project" popovertargetaction="hide" style="position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text);">&times;</button>
+        <h2 id="modal-title"></h2>
+        <p id="modal-description"></p>
+        <div id="modal-tools"></div>
+        <button onclick="editProject()" style="margin-top: 1rem; background: var(--accent); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;">Edit Project</button>
+      </div>
+    </div>
 
     <footer style="margin-top: 100px;">
       <p>© <span id="year"></span> Yves Developer</p>
@@ -157,8 +167,42 @@
         else alert('Failed to delete project');
       }
 
-      async function getProject(title) {
-        window.location.href = `/project/${title}`;
+      let currentProject = null;
+      
+      async function showProjectModal(title) {
+        try {
+          const res = await fetch(`/api/project/${title}`);
+          const project = await res.json();
+          currentProject = project;
+          
+          document.getElementById('modal-title').textContent = project.title;
+          document.getElementById('modal-description').textContent = project.description;
+          
+          const toolsContainer = document.getElementById('modal-tools');
+          toolsContainer.innerHTML = '';
+          
+          if (project.tools && project.tools.length > 0) {
+            const toolsTitle = document.createElement('h4');
+            toolsTitle.textContent = 'Technologies:';
+            toolsTitle.style.marginBottom = '0.5rem';
+            toolsContainer.appendChild(toolsTitle);
+            
+            project.tools.forEach(tool => {
+              const pill = document.createElement('span');
+              pill.className = 'pill';
+              pill.textContent = tool;
+              toolsContainer.appendChild(pill);
+            });
+          }
+        } catch (err) {
+          console.error('Error fetching project:', err);
+        }
+      }
+      
+      function editProject() {
+        if (currentProject) {
+          window.location.href = `/edit-project/${currentProject.title}`;
+        }
       }
 
       document.getElementById('year').textContent = new Date().getFullYear();

@@ -9,5 +9,5 @@ socket.on('message',(text)=>{
 document.querySelector('button').onclick = ()=>{
     const text = document.querySelector('input').value;
     socket.emit('message',text);
-    document.querySelector('input').value = ''; // Clear the input after sending
+    document.querySelector('input').value = '';
 }

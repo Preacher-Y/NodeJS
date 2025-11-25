@@ -13,4 +13,4 @@ io.on('connection',(socket)=>{
     })
 })
 
-http.listen(9090,()=>console.log("Server is Up and Running"));
+http.listen(9009,()=>console.log("Server is Up and Running"));
