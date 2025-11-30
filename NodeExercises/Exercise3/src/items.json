@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "name": "Garbage",
+    "seller": "John Doe",
+    "price": 23,
+    "category": "Food and Berverage"
+  },
+  {
+    "id": 2,
+    "name": "Musting",
+    "seller": "John Doe",
+    "price": 11,
+    "category": "Food and Berverage"
+  },
+  {
+    "id": 3,
+    "name": "Toilet Paper",
+    "seller": "John Doe",
+    "price": 23,
+    "category": "Utensils"
+  },
+  {
+    "id": 4,
+    "name": "Fork",
+    "seller": "John Doe",
+    "price": 23,
+    "category": "Utensils"
+  },
+  {
+    "id": 5,
+    "name": "Lenovo PC",
+    "seller": "John Doe",
+    "price": 23,
+    "category": "Electronics"
+  },
+  {
+    "id": 6,
+    "name": "SamSung Phone",
+    "seller": "Preacher",
+    "price": 43,
+    "category": "Electronics"
+  }
+]

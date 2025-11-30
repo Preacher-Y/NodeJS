@@ -6,7 +6,9 @@
   "author": "",
   "type": "module",
   "scripts": {
-    "exer1": "nodemon ./Exercise1/src/server"
+    "exer1": "nodemon ./Exercise1/src/server",
+    "exer2": "nodemon ./Exercise2/src/server",
+    "exer3": "nodemon ./Exercise3/src/server"
   },
   "dependencies": {
     "cors": "^2.8.5",
